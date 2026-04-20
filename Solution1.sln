@@ -1,13 +1,102 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36603.0 d17.14
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {97D940CC-2190-418F-9709-94104C6D4D63}
-	EndGlobalSection
-EndGlobal
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
+
+class Program
+{
+  
+    static void ShowMenu()
+    {
+        Console.WriteLine("=== Calculator ===");
+        Console.WriteLine("1. Add");
+        Console.WriteLine("2. Subtract");
+        Console.WriteLine("3. Multiply");
+        Console.WriteLine("4. Divide");
+        Console.WriteLine("5. Power");
+        Console.WriteLine("6. Exit");
+    }
+    static int ChoiseOperation()
+    {
+        int choise;
+        while(true)
+        {
+            Console.Write("Enter the number of operation : ");
+            if (int.TryParse(Console.ReadLine(), out choise)&&choise>=1&&choise<=6)
+               return choise;
+            Console.WriteLine("Invalid input! Try again");
+        }
+        
+    }
+
+    static double GetNumbers(string figure)
+    {
+        double number;
+        while (true)
+        {
+            Console.Write(figure);
+            if (double.TryParse(Console.ReadLine(), out number))
+                return number;
+            Console.Write("Invalid input! Try again");
+        }
+    }
+    static double operations(double number1, double number2, int sign)
+    {
+        switch(sign)
+        {
+            case 1:
+                return Add(number1, number2);
+            case 2:
+                return Subtract(number1, number2 );
+            case 3:
+                return Multiply(number1, number2 );
+            case 4:
+                return Divide(number1, number2);
+            case 5:
+                return Power(number1, number2);
+            default:
+                return 0;
+
+        }
+    }
+    static double Add(double x, double y) { return x + y;}
+    static double Subtract(double x, double y) { return x - y;}
+    static double Multiply(double x, double y) { return x * y; }
+    static double Divide(double x, double y)
+    { 
+        if(y==0)
+        {
+            Console.WriteLine("Error: Division by zero!");
+            
+        }
+        return x / y;
+    }
+    static double Power(double x, double y) 
+    {
+        return Math.Pow(x,y);
+    }
+    
+    static void Main()
+    {
+        ShowMenu();
+        while(true)
+        {
+            int choise = ChoiseOperation();
+
+            if(choise==6)
+            {
+                Console.WriteLine("Good Bye");
+                break;
+            }
+            double number1 = GetNumbers("Enter the first number : ");
+            double number2 = GetNumbers("Enter the second number : ");
+
+            double result = operations(number1, number2, choise);
+
+            Console.WriteLine($"The result is {result}");
+        }
+        Console.ReadLine();
+    }
+}
+
